@@ -3,26 +3,24 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use App\Models\BossCoin;
 
-class CreateBlogsTable extends Migration
+class CreateBossCoinTable extends Migration
 {
     /**
      * Run the migrations.
      *
      * @return void
      */
-
     public function up()
     {
-        if(!Schema::hasTable('blogs')){
-            Schema::create('blogs', function (Blueprint $table) {
-                $table->bigIncrements('id');
-                $table->string('title',100);
-                $table->text('content');
-                $table->timestamps();
+        if(!Schema::hasTable('boss_coin')){
+            Schema::create('boss_coin', function (Blueprint $table)  {
+                $table->integer('stage');
+                $table->float('coin', 6, 2);
+                $table->integer('digit');
             });
         }
-
     }
 
     /**
@@ -32,6 +30,6 @@ class CreateBlogsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('blogs');
+        Schema::dropIfExists('boss_coin');
     }
 }

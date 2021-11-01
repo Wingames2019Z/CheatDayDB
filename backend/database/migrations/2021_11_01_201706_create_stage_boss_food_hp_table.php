@@ -3,9 +3,9 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
-use App\Models\PlayerNeededCoin;
+use App\Models\StageBossFoodHp;
 
-class CreatePlayerNeededCoinTable extends Migration
+class CreateStageBossFoodHpTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,10 +14,10 @@ class CreatePlayerNeededCoinTable extends Migration
      */
     public function up()
     {
-        if(!Schema::hasTable('player_needed_coin')){
-            Schema::create('player_needed_coin', function (Blueprint $table)  {
-                $table->integer('level');
-                $table->float('coin', 6, 2);
+        if(!Schema::hasTable('stage_boss_food_hp')){
+            Schema::create('stage_boss_food_hp', function (Blueprint $table)  {
+                $table->integer('stage');
+                $table->float('hp', 6, 2);
                 $table->integer('digit');
             });
         }
@@ -30,6 +30,6 @@ class CreatePlayerNeededCoinTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('player_needed_coin');
+        Schema::dropIfExists('stage_boss_food_hp');
     }
 }
