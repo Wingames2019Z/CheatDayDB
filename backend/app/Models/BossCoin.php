@@ -16,5 +16,5 @@ class BossCoin extends Model
            'coin',
            'digit',
        ];
-   }
+   
 }
