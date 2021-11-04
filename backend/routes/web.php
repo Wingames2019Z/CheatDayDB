@@ -33,3 +33,5 @@
 // ('delete');
 
 Route::get('registration', 'RegistrationController@Registration');
+
+Route::get('data_download', 'RegistrationController@DataDownLoad');

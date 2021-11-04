@@ -4,16 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class PlayerNeededCoin extends Model
+class PlayerData extends Model
 {
     //table name
-    protected $table = 'player_needed_coin';
+    protected $table = 'player_data';
 
     //variable
     protected $guarded = 
     [
         'level',
         'coin',
-        'digit',
+        'coin_digit',
+        'damage',
+        'damage_digit',
     ];
 }

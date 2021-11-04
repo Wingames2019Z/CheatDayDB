@@ -3,9 +3,9 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
-use App\Models\BossCoin;
+use App\Models\PlayerData;
 
-class CreateBossCoinTable extends Migration
+class CreatePlayerDataTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,11 +14,13 @@ class CreateBossCoinTable extends Migration
      */
     public function up()
     {
-        if(!Schema::hasTable('boss_coin')){
-            Schema::create('boss_coin', function (Blueprint $table)  {
-                $table->integer('stage');
+        if(!Schema::hasTable('player_data')){
+            Schema::create('player_data', function (Blueprint $table)  {
+                $table->integer('level');
                 $table->float('coin', 6, 2);
-                $table->integer('digit');
+                $table->integer('coin_digit');
+                $table->float('damage', 6, 2);
+                $table->integer('damage_digit');
             });
         }
     }
@@ -30,6 +32,6 @@ class CreateBossCoinTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('boss_coin');
+        Schema::dropIfExists('player_data');
     }
 }
