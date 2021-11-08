@@ -34,4 +34,6 @@
 
 Route::get('registration', 'RegistrationController@Registration');
 
+Route::get('ranking_get/user_id/{user_id}/tap/{tap}/eat_count/{eat_count}/level/{level}/stage/{stage}/type/{type}/', 'RankingController@RankingGet');
+
 Route::get('data_download', 'RegistrationController@DataDownLoad');

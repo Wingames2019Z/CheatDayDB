@@ -18,9 +18,10 @@ class RegistrationController extends Controller
 		$user_profile = new UserProfile;
 		$user_profile->user_id = $user_id;
 		$user_profile->user_name = $request->user_name;
-		$user_profile->eat_count = config('constants.NULL_COUNT_DEFAULT');
-        $user_profile->boss_count = config('constants.NULL_COUNT_DEFAULT');
-        $user_profile->prestage = config('constants.NULL_COUNT_DEFAULT');
+		$user_profile->tap = config('constants.NULL_COUNT_DEFAULT');
+        $user_profile->eat_count = config('constants.NULL_COUNT_DEFAULT');
+        $user_profile->level = config('constants.ONE_COUNT_DEFAULT');
+		$user_profile->stage = config('constants.ONE_COUNT_DEFAULT');
         //データの書き込み 
 		try {
 			$user_profile->save();

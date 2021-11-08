@@ -18,9 +18,10 @@ class CreateUserProfileTable extends Migration
             Schema::create('user_profile', function (Blueprint $table) {
                 $table->string('user_id', 37)->charset('utf8');
                 $table->string('user_name', 32)->charset('utf8');
+                $table->integer('tap')->default(0);
                 $table->integer('eat_count')->default(0);
-                $table->integer('boss_count')->default(0);
-                $table->integer('prestage')->default(0);
+                $table->integer('level')->default(0);
+                $table->integer('stage')->default(0);
                 $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
                 $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
                 $table->primary('user_id');
