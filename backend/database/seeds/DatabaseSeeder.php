@@ -17,8 +17,8 @@ class DatabaseSeeder extends Seeder
     //    $this->call(StageFoodHpTableSeeder::class);
     //    $this->call(StageCoinTableSeeder::class);
     //    $this->call(BossCoinTableSeeder::class);
-       $this->call(PlayerDataTableSeeder::class); 
-       $this->call(FoodPurchaseCoinTableSeeder::class); 
-       $this->call(SkillStatusTableSeeder::class);        
+    //    $this->call(PlayerDataTableSeeder::class); 
+    //    $this->call(FoodPurchaseCoinTableSeeder::class); 
+       $this->call(UserSeeder::class);        
     }
 }
