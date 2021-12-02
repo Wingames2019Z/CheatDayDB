@@ -16,12 +16,25 @@ use Faker\Generator as Faker;
 */
 
 $factory->define(UserProfile::class, function (Faker $faker) {
+
+    do{
+        $user_friend_id = random();
+        $isExist = UserProfile::where('user_friend_id',$user_friend_id)->first();
+
+    }while ($isExist);
+
     return [
         'user_id' => $faker->uuid,
+        'user_friend_id' => $user_friend_id,
         'user_name' => $faker->name,
+        'food_num' => mt_rand(0, 10),
         'tap' => mt_rand(100, 2000),
         'eat_count' => mt_rand(100, 5000),
         'level' => mt_rand(100, 2000),
         'stage' => mt_rand(100, 2000),
     ];
 });
+function random($length = 7)
+{
+    return base_convert(mt_rand(pow(36, $length - 1), pow(36, $length) - 1), 10, 36);
+}

@@ -5,6 +5,8 @@ use Illuminate\Http\Request;
 use App\Models\PlayerData;
 use App\Models\SkillStatus;
 use App\Models\UserProfile;
+use App\Models\UserFriend;
+use App\Models\UserFriendRequest;
 use App\Models\FoodPurchaseCoin;
 use DB;
 
@@ -17,6 +19,11 @@ class RegistrationController extends Controller
 		//初期データの設定　user_profile
 		$user_profile = new UserProfile;
 		$user_profile->user_id = $user_id;
+		do{
+			$user_friend_id = random();
+			$isExist = UserProfile::where('user_friend_id',$user_friend_id)->first();
+		}while ($isExist);
+		$user_profile->user_friend_id = $user_friend_id;	
 		$user_profile->user_name = $request->user_name;
 		$user_profile->tap = config('constants.NULL_COUNT_DEFAULT');
         $user_profile->eat_count = config('constants.NULL_COUNT_DEFAULT');
@@ -25,6 +32,7 @@ class RegistrationController extends Controller
         //データの書き込み 
 		try {
 			$user_profile->save();
+			$user_friend->save();
 			\DB::commit();
 		} catch (\PDOException $e) {
 			\DB::rollback();
@@ -37,6 +45,12 @@ class RegistrationController extends Controller
             'user_profile' => $user_profile,
 		);
 		return json_encode($response);
+
+
+		function random($length = 7)
+		{
+			return base_convert(mt_rand(pow(36, $length - 1), pow(36, $length) - 1), 10, 36);
+		}
     }
 
 

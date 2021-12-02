@@ -17,7 +17,9 @@ class CreateUserProfileTable extends Migration
         {
             Schema::create('user_profile', function (Blueprint $table) {
                 $table->string('user_id', 37)->charset('utf8');
+                $table->string('user_friend_id', 37)->charset('utf8');
                 $table->string('user_name', 32)->charset('utf8');
+                $table->integer('food_num')->default(0);
                 $table->integer('tap')->default(0);
                 $table->integer('eat_count')->default(0);
                 $table->integer('level')->default(0);
