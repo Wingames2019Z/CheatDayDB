@@ -23,8 +23,8 @@ class RegistrationController extends Controller
 			$user_friend_id = random();
 			$isExist = UserProfile::where('user_friend_id',$user_friend_id)->first();
 		}while ($isExist);
-		$user_profile->user_friend_id = $user_friend_id;	
 		$user_profile->user_name = $request->user_name;
+		$user_profile->user_friend_id = $user_friend_id;
 		$user_profile->tap = config('constants.NULL_COUNT_DEFAULT');
         $user_profile->eat_count = config('constants.NULL_COUNT_DEFAULT');
         $user_profile->level = config('constants.ONE_COUNT_DEFAULT');
@@ -32,7 +32,6 @@ class RegistrationController extends Controller
         //データの書き込み 
 		try {
 			$user_profile->save();
-			$user_friend->save();
 			\DB::commit();
 		} catch (\PDOException $e) {
 			\DB::rollback();
@@ -47,10 +46,7 @@ class RegistrationController extends Controller
 		return json_encode($response);
 
 
-		function random($length = 7)
-		{
-			return base_convert(mt_rand(pow(36, $length - 1), pow(36, $length) - 1), 10, 36);
-		}
+
     }
 
 
@@ -111,5 +107,9 @@ class RegistrationController extends Controller
     }
 
 
+}
 
+function random($length = 7)
+{
+	return base_convert(mt_rand(pow(36, $length - 1), pow(36, $length) - 1), 10, 36);
 }

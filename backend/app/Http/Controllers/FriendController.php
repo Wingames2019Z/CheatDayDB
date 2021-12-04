@@ -39,9 +39,18 @@ class FriendController extends Controller
             $friend = UserProfile::where('user_friend_id', $friend_id[$i])->select('user_name','user_friend_id','food_num')->get();
             array_push($friend_list,$friend);
         }
+        foreach ($friend_list as $k => $value){
+            
+            $friend_list[$k]=array(
+                'user_name'=>$value->user_name,
+                'user_friend_id'=>$value->user_friend_id,
+                'food_num'=>$value->food_num,
+                'condition'=>ConditionCheck($my_friend_id,$value->user_friend_id)
+            );
 
+        }
         $response = array(
-            'friend_list' => $friend_list,
+            'friends' => $friend_list,
 		);
 		return json_encode($response);
     }
@@ -58,7 +67,14 @@ class FriendController extends Controller
         $delete_list =  $_query->where('src','like', '%' .$my_friend_id. '%')->select('dst')->get();
         if($pending_list !=null){
             foreach ($pending_list as $k => $value){
-                foreach ($delete_list as $_value){ 
+                foreach ($delete_list as $_value){
+                    
+                    $pending_list[$k]=array(
+                        'user_name'=>$value->user_name,
+                        'user_friend_id'=>$value->user_friend_id,
+                        'food_num'=>$value->food_num,
+                        'condition'=>ConditionCheck($my_friend_id,$value->user_friend_id)
+                    );
                     if($value->src == $_value->dst){
                         unset($pending_list[$k]);
                     }
@@ -67,7 +83,7 @@ class FriendController extends Controller
         }
 
         $response = array(
-            'pending_list' => $pending_list,
+            'friends' => $pending_list,
 		);
 		return json_encode($response);
     }
@@ -96,7 +112,7 @@ class FriendController extends Controller
             );
         }
         $response = array(
-            'searched_user' => $searched_user,
+            'friends' => $searched_user,
 		);
 		return json_encode($response);
     }
