@@ -36,54 +36,67 @@ class FriendController extends Controller
         $length = count($friend_id);
         $friend_list = array();
         for ($i = 0; $i < $length; $i++) {
-            $friend = UserProfile::where('user_friend_id', $friend_id[$i])->select('user_name','user_friend_id','food_num')->get();
+            $friend = UserProfile::where('user_friend_id', $friend_id[$i])->select('user_name','user_friend_id','food_num')->first();
             array_push($friend_list,$friend);
         }
-        foreach ($friend_list as $k => $value){
-            
+        foreach ($friend_list as $k => $value){         
             $friend_list[$k]=array(
                 'user_name'=>$value->user_name,
                 'user_friend_id'=>$value->user_friend_id,
                 'food_num'=>$value->food_num,
                 'condition'=>ConditionCheck($my_friend_id,$value->user_friend_id)
             );
-
         }
         $response = array(
             'friends' => $friend_list,
 		);
 		return json_encode($response);
     }
+
     public function ShowPendingFriend(Request $request)
 	{
         $user_id = $request->user_id;
         $user_profile = UserProfile::where('user_id', $user_id)->first();
         $my_friend_id = $user_profile->user_friend_id;
 
+        //get pending friend
         $query = UserFriend::query();
         $pending_list = $query->where('dst','like', '%' .$my_friend_id. '%')->select('src')->get();
 
+        //get request sent friend
         $_query = UserFriend::query();
         $delete_list =  $_query->where('src','like', '%' .$my_friend_id. '%')->select('dst')->get();
-        if($pending_list !=null){
-            foreach ($pending_list as $k => $value){
-                foreach ($delete_list as $_value){
-                    
-                    $pending_list[$k]=array(
-                        'user_name'=>$value->user_name,
-                        'user_friend_id'=>$value->user_friend_id,
-                        'food_num'=>$value->food_num,
-                        'condition'=>ConditionCheck($my_friend_id,$value->user_friend_id)
-                    );
-                    if($value->src == $_value->dst){
-                        unset($pending_list[$k]);
-                    }
+
+        //get pending friends info
+        $length = count($pending_list);
+        $friend_list = array();
+        for ($i = 0; $i < $length; $i++) {
+            //check already friend or not
+            $already_friend = false;
+            foreach ($delete_list as $_value){ 
+                if($pending_list[$i]->src == $_value->dst){
+                    $already_friend = true;
                 }
             }
+            if($already_friend == false){
+                $friend = UserProfile::where('user_friend_id', $pending_list[$i]->src)->select('user_name','user_friend_id','food_num')->first();
+                array_push($friend_list,$friend);
+            }
+
+        }
+        //modify friends form
+        foreach ($friend_list as $k => $value){
+            $friend_list[$k]=array(
+                'user_name'=>$value->user_name,
+                'user_friend_id'=>$value->user_friend_id,
+                'food_num'=>$value->food_num,
+                'condition'=>ConditionCheck($my_friend_id,$value->user_friend_id)
+            );
         }
 
+        //dd($friend_list);
         $response = array(
-            'friends' => $pending_list,
+            'friends' => $friend_list,
 		);
 		return json_encode($response);
     }
