@@ -111,18 +111,16 @@ class FriendController extends Controller
         $query = UserProfile::query();
         $searched_user = $query->where(DB::raw('CONCAT(user_name, user_friend_id)'),'like', '%' .$search_term. '%')->select('user_name','user_friend_id','food_num')->get();
         
-        foreach ($searched_user as $k => $value){ 
-            if($value->user_friend_id == $my_friend_id){
-                unset($searched_user[$k]);
-            }
- 
-            
+        foreach ($searched_user as $k => $value){      
             $searched_user[$k] = array(
                 'user_name'=>$value->user_name,
                 'user_friend_id'=>$value->user_friend_id,
                 'food_num'=>$value->food_num,
                 'condition'=>ConditionCheck($my_friend_id,$value->user_friend_id)
             );
+                        if($value->user_friend_id == $my_friend_id){
+                unset($searched_user[$k]);
+            }
         }
         $response = array(
             'friends' => $searched_user,
@@ -153,11 +151,8 @@ class FriendController extends Controller
             }
         }
 
-        $response = "";
-        if($sent){
-            $response = "false";
-
-        }else{
+        if($sent == false)
+        {
             $user_friend = new UserFriend;
             $user_friend->src = $my_friend_id;
             $user_friend->dst = $request_friend_id;
@@ -172,8 +167,10 @@ class FriendController extends Controller
 
             $response = "true";
         }
-        
-        return json_encode($response);
+        $friends = array(
+            'friends' => '',
+        );
+        return json_encode($friends);
     }
 
     public function DenyFriend(Request $request)
@@ -193,7 +190,12 @@ class FriendController extends Controller
             logger($e->getMessage());
             return config('error.ERROR_DB_UPDATE');
         }
-        return redirect('show_pending_friend/user_id/'.$user_id);
+
+        $friends = array(
+            'friends' => '',
+        );
+
+        return json_encode($friends);
     }
 
     public function DeleteFriend(Request $request)
@@ -218,7 +220,11 @@ class FriendController extends Controller
             logger($e->getMessage());
             return config('error.ERROR_DB_UPDATE');
         }
-        return redirect('show_friend/user_id/'.$user_id);
+        $friends = array(
+            'friends' => '',
+        );
+
+        return json_encode($friends);
     }
 }
 function ConditionCheck($friendA,$friendB){
