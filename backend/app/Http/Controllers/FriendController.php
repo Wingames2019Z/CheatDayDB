@@ -10,6 +10,46 @@ use DB;
 class FriendController extends Controller
 {
 
+    
+    public function ShowOfferList(Request $request)
+	{
+        $user_id = $request->user_id;
+        $user_profile = UserProfile::where('user_id', $user_id)->first();
+        $my_friend_id = $user_profile->user_friend_id;
+
+        $query = UserFriend::query();
+        $sent_list =  $query->where('src','like', '%' .$my_friend_id. '%')->select('dst')->get();
+        $friend_id = array();
+        
+        foreach ($sent_list as $value){
+            array_push($friend_id, $value->dst);
+        }
+
+        $length = count($friend_id);
+        $friend_list = array();    
+        for ($i = 0; $i < $length; $i++) {
+            $condition = ConditionCheck($my_friend_id,$friend_id[$i]);
+            if($condition == 1){
+                $friend = UserProfile::where('user_friend_id', $friend_id[$i])->select('user_name','user_friend_id','food_num')->first();
+                array_push($friend_list,$friend);
+            }
+
+        }
+
+        foreach ($friend_list as $k => $value){
+            $friend_list[$k]=array(
+                'user_name'=>$value->user_name,
+                'user_friend_id'=>$value->user_friend_id,
+                'food_num'=>$value->food_num,
+                'condition'=>$condition
+            );      
+        }
+        $response = array(
+            'friends' => $friend_list,
+		);
+		return json_encode($response);
+    }
+
 
     public function ShowFriendList(Request $request)
 	{
@@ -52,6 +92,7 @@ class FriendController extends Controller
 		);
 		return json_encode($response);
     }
+
 
     public function ShowPendingFriend(Request $request)
 	{
@@ -213,6 +254,31 @@ class FriendController extends Controller
             $_query = UserFriend::query();
             $pending_list = $_query->where('dst','=', $my_friend_id)
             ->where('src','=', $delete_friend_id)->delete();
+
+            \DB::commit();
+        }catch(\PDOException $e) {
+            \DB::rollback();
+            logger($e->getMessage());
+            return config('error.ERROR_DB_UPDATE');
+        }
+        $friends = array(
+            'friends' => '',
+        );
+
+        return json_encode($friends);
+    }
+
+    public function CanselFriend(Request $request)
+	{
+        $user_id = $request->user_id;
+        $user_profile = UserProfile::where('user_id', $user_id)->first();
+        $my_friend_id = $user_profile->user_friend_id;
+        $cansel_friend_id = $request->cansel_friend_id;
+        
+        try{
+            $query = UserFriend::query();
+            $pending_list = $query->where('src','=', $my_friend_id)
+            ->where('dst','=', $cansel_friend_id)->delete();
 
             \DB::commit();
         }catch(\PDOException $e) {

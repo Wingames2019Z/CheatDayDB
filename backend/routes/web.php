@@ -8,6 +8,10 @@ Route::get('data_download', 'RegistrationController@DataDownLoad');
 
 Route::get('show_friend/user_id/{user_id}/', 'FriendController@ShowFriendList');
 
+Route::get('show_offer_friend/user_id/{user_id}/', 'FriendController@ShowOfferList');
+
+Route::get('cansel_friend/user_id/{user_id}/cansel_friend_id/{cansel_friend_id}/', 'FriendController@CanselFriend');
+
 Route::get('show_pending_friend/user_id/{user_id}/', 'FriendController@ShowPendingFriend');
 
 Route::get('search_friend/user_id/{user_id}/search_term/{search_term}/', 'FriendController@SearchFriend');
