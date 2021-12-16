@@ -192,26 +192,57 @@ class FriendController extends Controller
             }
         }
 
-        if($sent == false)
-        {
-            $user_friend = new UserFriend;
-            $user_friend->src = $my_friend_id;
-            $user_friend->dst = $request_friend_id;
-            try {
-                $user_friend->save();
-                \DB::commit();
-            } catch (\PDOException $e) {
-                \DB::rollback();
-                logger($e->getMessage());
-                return config('error.ERROR_DB_UPDATE');
+        $request_check = false;
+        if($request->request_type =="request"){
+            $count = PendingCount($request_friend_id);
+            $pending_max = 1;
+            if($count < $pending_max){
+                $request_check = true;
+            }else
+            {
+                $request_check = false;
+            }
+        }else{
+            $request_check = true;       
+        }
+
+        if($request_check){
+
+            if($sent == false)
+            {
+                $user_friend = new UserFriend;
+                $user_friend->src = $my_friend_id;
+                $user_friend->dst = $request_friend_id;
+                try {
+                    $user_friend->save();
+                    \DB::commit();
+                } catch (\PDOException $e) {
+                    \DB::rollback();
+                    logger($e->getMessage());
+                    return config('error.ERROR_DB_UPDATE');
+                }
+                $response = "true";
             }
 
-            $response = "true";
+            $friends = array(
+                'friends' => '',
+            );
+            return json_encode($friends);
+        }else
+        {
+            $friend_list = array(); 
+            $friend = array(
+                'user_name'=>"requested_friend_full",
+                'user_friend_id'=>"requested_friend_full",
+                'food_num'=>"-1",
+                'condition'=>"-1"
+            );
+            array_push($friend_list,$friend);
+            $friends = array(
+                'friends' =>$friend_list,
+            );
+            return json_encode($friends);
         }
-        $friends = array(
-            'friends' => '',
-        );
-        return json_encode($friends);
     }
 
     public function DenyFriend(Request $request)
@@ -220,7 +251,6 @@ class FriendController extends Controller
         $user_profile = UserProfile::where('user_id', $user_id)->first();
         $my_friend_id = $user_profile->user_friend_id;
         $pending_friend_id = $request->pending_friend_id;
-
         try{
             $query = UserFriend::query();
             $pending_list = $query->where('dst','=', $my_friend_id)
@@ -231,11 +261,9 @@ class FriendController extends Controller
             logger($e->getMessage());
             return config('error.ERROR_DB_UPDATE');
         }
-
         $friends = array(
             'friends' => '',
         );
-
         return json_encode($friends);
     }
 
@@ -244,8 +272,7 @@ class FriendController extends Controller
         $user_id = $request->user_id;
         $user_profile = UserProfile::where('user_id', $user_id)->first();
         $my_friend_id = $user_profile->user_friend_id;
-        $delete_friend_id = $request->delete_friend_id;
-        
+        $delete_friend_id = $request->delete_friend_id; 
         try{
             $query = UserFriend::query();
             $pending_list = $query->where('src','=', $my_friend_id)
@@ -323,7 +350,6 @@ function ConditionCheck($friendA,$friendB){
         $requested = true;
     }
 
-
     if($sent == false &&  $requested == false){
         $num = 0;
     }elseif($sent == true &&  $requested == false){
@@ -333,6 +359,39 @@ function ConditionCheck($friendA,$friendB){
     }elseif($sent == true &&  $requested == true){
         $num = 3;
     }
-
     return $num;
+}
+
+
+function PendingCount($friend_id)
+{    
+    //get pending friend
+    $query = UserFriend::query();
+    $pending_list = $query->where('dst','like', '%' .$friend_id. '%')->select('src')->get();
+    
+    //get request sent friend
+    $_query = UserFriend::query();
+    $delete_list =  $_query->where('src','like', '%' .$friend_id. '%')->select('dst')->get();
+    
+    //get pending friends info
+    $length = count($pending_list);
+    $friend_list = array();
+    for ($i = 0; $i < $length; $i++) {
+        //check already friend or not
+         $already_friend = false;
+         foreach ($delete_list as $_value){ 
+             if($pending_list[$i]->src == $_value->dst){
+                 $already_friend = true;
+                }
+            }
+            
+            if($already_friend == false){
+                $friend = UserProfile::where('user_friend_id', $pending_list[$i]->src)->select('user_name','user_friend_id','food_num')->first();
+                array_push($friend_list,$friend);
+            }    
+    }
+
+    $count = count($friend_list);
+
+    return $count;
 }

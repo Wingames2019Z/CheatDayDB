@@ -44,23 +44,40 @@ class RegistrationController extends Controller
             'user_profile' => $user_profile,
 		);
 		return json_encode($response);
-
-
-
     }
 
+    public function Update(Request $request)
+	{
+		//DBからデータ取得
+		$user_id = $request->user_id;
+		$user_name = $request->user_name;
+		$food_num = $request->food_num;
 
+		$user_profile = UserProfile::where('user_id', $user_id)->first();
+        $user_profile->user_name = $user_name;
+		$user_profile->food_num = $food_num;
+
+        //データの書き込み 
+        try {
+            $user_profile->save();
+            \DB::commit();
+		} catch (\PDOException $e) {
+            \DB::rollback();
+			logger($e->getMessage());
+			return config('error.ERROR_DB_UPDATE');
+		}
+
+		$response = array(
+			'user_profile' => $user_profile,
+		);    
+        return json_encode($response);
+    }
 
     public function DataDownLoad(Request $request)
 	{
 
 		$table_name = $request->table_name;
         //クライアントへのレスポンス
-        // $player_needed_coin =PlayerNeededCoin::all();
-        // $player_tap_damage = PlayerTapDamage::all();
-        // $food_purchase_coin = FoodPurchaseCoin::all();
-        // $skill_status = SkillStatus::all();
-        
 
 		switch ($table_name) {
 			case 'player_data':
