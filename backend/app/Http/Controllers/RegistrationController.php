@@ -29,6 +29,7 @@ class RegistrationController extends Controller
         $user_profile->eat_count = config('constants.NULL_COUNT_DEFAULT');
         $user_profile->level = config('constants.ONE_COUNT_DEFAULT');
 		$user_profile->stage = config('constants.ONE_COUNT_DEFAULT');
+		$user_profile->purchased_diamonds = config('constants.NULL_COUNT_DEFAULT');
         //データの書き込み 
 		try {
 			$user_profile->save();

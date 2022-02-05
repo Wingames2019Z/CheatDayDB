@@ -18,7 +18,8 @@ class CreatePurchaseTable extends Migration
             Schema::create('purchase', function (Blueprint $table) {
                 $table->string('user_id', 37)->charset('utf8');
                 $table->string('product_id', 32)->charset('utf8');
-                $table->timestamp('purchase_data')->default(DB::raw('CURRENT_TIMESTAMP'));
+                $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+                $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
             });
         }
     }

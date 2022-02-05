@@ -27,3 +27,6 @@ Route::get('accept_friend', 'FriendController@AcceptFriend');
 Route::get('deny_friend/user_id/{user_id}/pending_friend_id/{pending_friend_id}', 'FriendController@DenyFriend');
 
 Route::get('delete_friend/user_id/{user_id}/delete_friend_id/{delete_friend_id}', 'FriendController@DeleteFriend');
+
+//purchase
+Route::get('shop/user_id/{user_id}/product_id/{product_id}', 'PurchaseController@Shop');
