@@ -32,6 +32,7 @@ $factory->define(UserProfile::class, function (Faker $faker) {
         'eat_count' => mt_rand(100, 5000),
         'level' => mt_rand(100, 2000),
         'stage' => mt_rand(100, 2000),
+        'purchased_diamonds' => 0,
     ];
 });
 function random($length = 7)
