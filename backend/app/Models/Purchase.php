@@ -6,8 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Purchase extends Model
 {    //table name
-    protected $table = 'Purchase';
+    protected $table = 'purchase';
     public $incrementing = false;
-    protected $primaryKey = 'user_id';
     public $timestamps = true;
 }
