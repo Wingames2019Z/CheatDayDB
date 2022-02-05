@@ -56,8 +56,6 @@ class PurchaseController extends Controller
             'user_profile' => $user_profile,
 		);
 		return json_encode($response);
-
-
-
+        //controller
     }
 }
