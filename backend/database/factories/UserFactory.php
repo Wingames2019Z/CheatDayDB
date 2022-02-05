@@ -22,7 +22,7 @@ $factory->define(UserProfile::class, function (Faker $faker) {
         $isExist = UserProfile::where('user_friend_id',$user_friend_id)->first();
 
     }while ($isExist);
-
+//new
     return [
         'user_id' => $faker->uuid,
         'user_friend_id' => $user_friend_id,
