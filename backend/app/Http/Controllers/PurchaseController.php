@@ -24,8 +24,8 @@ class PurchaseController extends Controller
             case "com.cheatday.diamonds180":
                 $diamonds = 180;
                 break;
-            case "com.cheatday.diamonds500":
-                $diamonds = 500;
+            case "com.cheatday.diamonds510":
+                $diamonds = 510;
                 break;
             case "com.cheatday.diamonds1200":
                 $diamonds = 1200;
