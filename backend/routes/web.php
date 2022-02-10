@@ -30,3 +30,6 @@ Route::get('delete_friend/user_id/{user_id}/delete_friend_id/{delete_friend_id}'
 
 //purchase
 Route::get('shop/user_id/{user_id}/product_id/{product_id}', 'PurchaseController@Shop');
+
+//events
+Route::get('events', 'EventController@GetEvents');
