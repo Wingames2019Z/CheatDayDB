@@ -12,9 +12,9 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call(PlayerDataTableSeeder::class); 
-    //    $this->call(FoodPurchaseCoinTableSeeder::class); 
-    //    $this->call(SkillStatusTableSeeder::class); 
-
-       //$this->call(UserSeeder::class);        
+        $this->call(FoodPurchaseCoinTableSeeder::class); 
+        $this->call(SkillStatusTableSeeder::class); 
+        $this->call(StageDataSeeder::class); 
+        $this->call(UserSeeder::class);        
     }
 }
