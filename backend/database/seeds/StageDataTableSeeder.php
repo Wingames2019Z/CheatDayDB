@@ -2,9 +2,9 @@
 
 use Illuminate\Database\Seeder;
 use App\Models\StageData;
-class StageDataSeeder extends Seeder
+class StageDataTableSeeder extends Seeder
 {
-    /**
+       /**
      * Run the database seeds.
      *
      * @return void
@@ -114,5 +114,4 @@ class StageDataSeeder extends Seeder
 
 
     }
-
 }
