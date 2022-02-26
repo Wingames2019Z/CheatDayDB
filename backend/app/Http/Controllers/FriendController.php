@@ -195,7 +195,7 @@ class FriendController extends Controller
         $request_check = false;
         if($request->request_type =="request"){
             $count = PendingCount($request_friend_id);
-            $pending_max = 1;
+            $pending_max = 30;
             if($count < $pending_max){
                 $request_check = true;
             }else
