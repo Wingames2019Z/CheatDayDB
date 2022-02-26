@@ -96,6 +96,9 @@ class PlayerDataTableSeeder extends Seeder
                 $FoodHP = $FoodHP / 1000;
                 $FoodHPDigit ++;
             }
+            if($FoodHPDigit == 0){
+                $FoodHP = Floor($FoodHP);
+            }
 
             //Boss Food HP Set
             $BossHP = $TapDamage * $BossMultiply;
@@ -104,13 +107,17 @@ class PlayerDataTableSeeder extends Seeder
                 $BossHP = $BossHP / 1000;
                 $BossHPDigit ++;
             }
+            if($BossHPDigit == 0){
+                $BossHP = Floor($BossHP);
+            }
 
-            //Stage Coin Set
-            
+            //Stage Coin Set        
             if($CoinPercent >= 1){
                 if($i !=1){
                     $CoinPercent = $CoinPercent - ($CoinPercent * $DeductPercent /100);
                 }
+            }else if($CoinPercent < 1){
+                $CoinPercent = 1;
             }
             $Coin = $NeededCoin * $CoinPercent  / 100;
             $CoinDigit = $NeededCoinDigit;
@@ -118,14 +125,17 @@ class PlayerDataTableSeeder extends Seeder
                 $Coin = $Coin * 1000;
                 $CoinDigit --;
             }
+
             //Boss Coin Set
             if($BossCoinPercent >= 1){
                 if($i !=1){
                     $BossCoinPercent = $BossCoinPercent - ($BossCoinPercent * $DeductPercent /100);
                 }         
+            }else if($BossCoinPercent < 1){
+                $BossCoinPercent = 1;
             }
             $BossCoin = $NeededCoin * $BossCoinPercent / 100;
-            $BossCoinDigit= $NeededCoinDigit;
+            $BossCoinDigit = $NeededCoinDigit;
             if($BossCoin > 1000){
                 $BossCoin = $BossCoin / 1000;
                 $BossCoinDigit ++;
