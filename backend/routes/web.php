@@ -4,6 +4,8 @@ Route::get('registration', 'RegistrationController@Registration');
 
 Route::get('update_profile/user_id/{user_id}/user_name/{user_name}/food_num/{food_num}', 'RegistrationController@Update');
 
+Route::get('gift_check', 'GiftController@GiftCheck');
+
 Route::get('ranking_get/user_id/{user_id}/tap/{tap}/eat_count/{eat_count}/level/{level}/stage/{stage}/type/{type}/', 'RankingController@RankingGet');
 
 Route::get('friend_ranking_get/user_id/{user_id}/tap/{tap}/eat_count/{eat_count}/level/{level}/stage/{stage}/type/{type}/', 'RankingController@FriendRankingGet');

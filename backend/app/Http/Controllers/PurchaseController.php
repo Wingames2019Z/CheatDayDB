@@ -37,7 +37,7 @@ class PurchaseController extends Controller
                 $diamonds = 6500;
                 break;
             }
-        $user_profile->purchased_diamonds += $diamonds;
+        $user_profile->gift_diamonds += $diamonds;
 
 
         //データの書き込み 
