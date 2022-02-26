@@ -15,7 +15,6 @@ class BlogController extends Controller
     {
         $blogs = Blog::all();
         return view('blog.list', ['blogs' => $blogs]);
-
     }
 
 

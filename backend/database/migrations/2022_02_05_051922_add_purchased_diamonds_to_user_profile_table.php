@@ -14,7 +14,7 @@ class AddPurchasedDiamondsToUserProfileTable extends Migration
     public function up()
     {
         Schema::table('user_profile', function (Blueprint $table) {
-            $table->integer('purchased_diamonds');  //カラム追加
+            $table->integer('gift_diamonds');  //カラム追加
         });
     }
 
@@ -26,7 +26,7 @@ class AddPurchasedDiamondsToUserProfileTable extends Migration
     public function down()
     {
         Schema::table('user_profile', function (Blueprint $table) {
-           $table->dropColumn('purchased_diamonds');  //カラムの削除
+           $table->dropColumn('gift_diamonds');  //カラムの削除
         });
     }
 }
