@@ -14,8 +14,6 @@ class GiftController extends Controller
 		$user_id = $request->user_id;
 		$user_profile = UserProfile::where('user_id', $user_id)->first();
         $return_user_profile = UserProfile::where('user_id', $user_id)->first();
-        $user_profile->user_name = $user_name;
-		$user_profile->food_num = $food_num;
 
         //gift 確認
         $gift_check = false;

@@ -27,6 +27,7 @@ $factory->define(UserProfile::class, function (Faker $faker) {
         'user_id' => $faker->uuid,
         'user_friend_id' => $user_friend_id,
         'user_name' => $faker->name,
+        'title' => mt_rand(0, 10),
         'food_num' => mt_rand(0, 10),
         'tap' => mt_rand(100, 2000),
         'eat_count' => mt_rand(100, 5000),
