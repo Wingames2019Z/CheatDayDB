@@ -113,7 +113,7 @@ class PlayerDataTableSeeder extends Seeder
 
             //Stage Coin Set        
             if($CoinPercent >= $limit){
-                if($i !=$limit){
+                if($i !=1){
                     $CoinPercent = $CoinPercent - ($CoinPercent * $DeductPercent /100);
                 }
             }else if($CoinPercent < $limit){
@@ -128,7 +128,7 @@ class PlayerDataTableSeeder extends Seeder
 
             //Boss Coin Set
             if($BossCoinPercent >= $limit){
-                if($i !=$limit){
+                if($i !=1){
                     $BossCoinPercent = $BossCoinPercent - ($BossCoinPercent * $DeductPercent /100);
                 }         
             }else if($BossCoinPercent < $limit){
