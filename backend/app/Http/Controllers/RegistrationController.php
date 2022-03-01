@@ -25,6 +25,7 @@ class RegistrationController extends Controller
 		}while ($isExist);
 		$user_profile->user_name = $request->user_name;
 		$user_profile->user_friend_id = $user_friend_id;
+		$user_profile->title = config('constants.NULL_COUNT_DEFAULT');
 		$user_profile->tap = config('constants.NULL_COUNT_DEFAULT');
         $user_profile->eat_count = config('constants.NULL_COUNT_DEFAULT');
         $user_profile->level = config('constants.ONE_COUNT_DEFAULT');
@@ -57,6 +58,31 @@ class RegistrationController extends Controller
 		$user_profile = UserProfile::where('user_id', $user_id)->first();
         $user_profile->user_name = $user_name;
 		$user_profile->food_num = $food_num;
+
+        //データの書き込み 
+        try {
+            $user_profile->save();
+            \DB::commit();
+		} catch (\PDOException $e) {
+            \DB::rollback();
+			logger($e->getMessage());
+			return config('error.ERROR_DB_UPDATE');
+		}
+
+		$response = array(
+			'user_profile' => $user_profile,
+		);    
+        return json_encode($response);
+    }
+
+	public function UpdateTitle(Request $request)
+	{
+		//DBからデータ取得
+		$user_id = $request->user_id;
+		$title = $request->title;
+
+		$user_profile = UserProfile::where('user_id', $user_id)->first();
+        $user_profile->title = $title;
 
         //データの書き込み 
         try {

@@ -27,11 +27,12 @@ $factory->define(UserProfile::class, function (Faker $faker) {
         'user_id' => $faker->uuid,
         'user_friend_id' => $user_friend_id,
         'user_name' => $faker->name,
-        'food_num' => mt_rand(0, 10),
+        'title' => mt_rand(0, 9),
+        'food_num' => mt_rand(0, 19),
         'tap' => mt_rand(100, 2000),
         'eat_count' => mt_rand(100, 5000),
-        'level' => mt_rand(100, 2000),
-        'stage' => mt_rand(100, 2000),
+        'level' => mt_rand(1, 100),
+        'stage' => mt_rand(1, 100),
         'gift_diamonds' => 0,
     ];
 });

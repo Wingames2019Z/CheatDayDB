@@ -31,7 +31,7 @@ class PlayerDataTableSeeder extends Seeder
         $BossHPDigit = 0;
 
         $HPMultiply = 30;
-        $BossMultiply = 120;
+        $BossMultiply = 60;
 
         //Stage Coin
         $Coin = 0;
@@ -39,10 +39,10 @@ class PlayerDataTableSeeder extends Seeder
         $BossCoin = 0;
         $BossCoinDigit = 0;
 
-        $CoinPercent = 60;
-        $BossCoinPercent = 400;
-        $DeductPercent = 1;
-
+        $CoinPercent = 10;//60
+        $BossCoinPercent = 200;//400
+        $DeductPercent = 0.5;//1
+        $limit = 0.5; //1
         for ($i = 1; $i <= $MaxLevel; $i++) {
             if($i == 1){
 
@@ -112,12 +112,12 @@ class PlayerDataTableSeeder extends Seeder
             }
 
             //Stage Coin Set        
-            if($CoinPercent >= 1){
-                if($i !=1){
+            if($CoinPercent >= $limit){
+                if($i !=$limit){
                     $CoinPercent = $CoinPercent - ($CoinPercent * $DeductPercent /100);
                 }
-            }else if($CoinPercent < 1){
-                $CoinPercent = 1;
+            }else if($CoinPercent < $limit){
+                $CoinPercent = $limit;
             }
             $Coin = $NeededCoin * $CoinPercent  / 100;
             $CoinDigit = $NeededCoinDigit;
@@ -127,12 +127,12 @@ class PlayerDataTableSeeder extends Seeder
             }
 
             //Boss Coin Set
-            if($BossCoinPercent >= 1){
-                if($i !=1){
+            if($BossCoinPercent >= $limit){
+                if($i !=$limit){
                     $BossCoinPercent = $BossCoinPercent - ($BossCoinPercent * $DeductPercent /100);
                 }         
-            }else if($BossCoinPercent < 1){
-                $BossCoinPercent = 1;
+            }else if($BossCoinPercent < $limit){
+                $BossCoinPercent = $limit;
             }
             $BossCoin = $NeededCoin * $BossCoinPercent / 100;
             $BossCoinDigit = $NeededCoinDigit;
