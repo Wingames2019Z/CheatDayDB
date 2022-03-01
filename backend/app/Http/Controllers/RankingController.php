@@ -31,7 +31,7 @@ class RankingController extends Controller
 
         switch ($type) {
             case 'tap':
-                $ranking = DB::select("SELECT user_id , user_name , tap FROM user_profile order by tap desc limit 100");
+                $ranking = DB::select("SELECT user_id , user_name , title , food_num , tap FROM user_profile order by tap desc limit 100");
                 foreach ($ranking as $value){       
                         if($value->user_id != $user_id){
                             $value->user_id = NULL;
@@ -40,7 +40,7 @@ class RankingController extends Controller
             break;
 
             case 'eat_count':
-                $ranking = DB::select("SELECT user_id , user_name , eat_count FROM user_profile order by eat_count desc limit 100");
+                $ranking = DB::select("SELECT user_id , user_name , title , food_num , eat_count FROM user_profile order by eat_count desc limit 100");
                 foreach ($ranking as $value){       
                         if($value->user_id != $user_id){
                             $value->user_id = NULL;
@@ -49,7 +49,7 @@ class RankingController extends Controller
             break;
 
             case 'level':
-                $ranking = DB::select("SELECT user_id , user_name , level FROM user_profile order by level desc limit 100");
+                $ranking = DB::select("SELECT user_id , user_name , title , food_num , level FROM user_profile order by level desc limit 100");
                 foreach ($ranking as $value){       
                         if($value->user_id != $user_id){
                             $value->user_id = NULL;
@@ -58,7 +58,7 @@ class RankingController extends Controller
             break;
 
             case 'stage':
-                $ranking = DB::select("SELECT user_id , user_name , stage FROM user_profile order by stage desc limit 100");
+                $ranking = DB::select("SELECT user_id , user_name , title , food_num , stage FROM user_profile order by stage desc limit 100");
                 foreach ($ranking as $value){       
                         if($value->user_id != $user_id){
                             $value->user_id = NULL;
@@ -123,7 +123,7 @@ class RankingController extends Controller
             case 'tap':
                 //get ranking 
                 $friend_ranking = array();
-                $ranking = DB::select("SELECT user_id , user_name , user_friend_id , tap FROM user_profile order by tap desc");
+                $ranking = DB::select("SELECT user_id , user_name , user_friend_id , title , food_num , tap FROM user_profile order by tap desc");
                 foreach ($ranking as $value){
                     if($value->user_id != $user_id){
                         $value->user_id = NULL;
@@ -136,6 +136,8 @@ class RankingController extends Controller
                             $friend=array(
                                 'user_id'=>$value->user_id,
                                 'user_name'=>$value->user_name,
+                                'title'=>$value->title,
+                                'food_num'=>$value->food_num,
                                 'tap'=>$value->tap,
                             );
                             array_push($friend_ranking, $friend);
@@ -153,7 +155,7 @@ class RankingController extends Controller
             case 'eat_count':
                 //get ranking 
                 $friend_ranking = array();
-                $ranking = DB::select("SELECT user_id , user_name , user_friend_id , eat_count FROM user_profile order by eat_count desc");
+                $ranking = DB::select("SELECT user_id , user_name , user_friend_id , title , food_num , eat_count FROM user_profile order by eat_count desc");
                 foreach ($ranking as $value){
                     if($value->user_id != $user_id){
                         $value->user_id = NULL;
@@ -166,6 +168,8 @@ class RankingController extends Controller
                             $friend=array(
                                 'user_id'=>$value->user_id,
                                 'user_name'=>$value->user_name,
+                                'title'=>$value->title,
+                                'food_num'=>$value->food_num,
                                 'eat_count'=>$value->eat_count,
                             );
                             array_push($friend_ranking, $friend);
@@ -183,7 +187,7 @@ class RankingController extends Controller
             case 'level':
                 //get ranking 
                 $friend_ranking = array();
-                $ranking = DB::select("SELECT user_id , user_name , user_friend_id , level FROM user_profile order by level desc");
+                $ranking = DB::select("SELECT user_id , user_name , user_friend_id , title , food_num , level FROM user_profile order by level desc");
                 foreach ($ranking as $value){
                     if($value->user_id != $user_id){
                         $value->user_id = NULL;
@@ -196,6 +200,8 @@ class RankingController extends Controller
                             $friend=array(
                                 'user_id'=>$value->user_id,
                                 'user_name'=>$value->user_name,
+                                'title'=>$value->title,
+                                'food_num'=>$value->food_num,
                                 'level'=>$value->level,
                             );
                             array_push($friend_ranking, $friend);
@@ -213,7 +219,7 @@ class RankingController extends Controller
             case 'stage':
                  //get ranking 
                  $friend_ranking = array();
-                 $ranking = DB::select("SELECT user_id , user_name , user_friend_id , stage FROM user_profile order by stage desc");
+                 $ranking = DB::select("SELECT user_id , user_name , user_friend_id , title , food_num , stage FROM user_profile order by stage desc");
                  foreach ($ranking as $value){
                      if($value->user_id != $user_id){
                          $value->user_id = NULL;
@@ -226,6 +232,8 @@ class RankingController extends Controller
                              $friend=array(
                                  'user_id'=>$value->user_id,
                                  'user_name'=>$value->user_name,
+                                 'title'=>$value->title,
+                                 'food_num'=>$value->food_num,
                                  'stage'=>$value->stage,
                              );
                              array_push($friend_ranking, $friend);

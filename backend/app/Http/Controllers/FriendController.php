@@ -30,7 +30,7 @@ class FriendController extends Controller
         for ($i = 0; $i < $length; $i++) {
             $condition = ConditionCheck($my_friend_id,$friend_id[$i]);
             if($condition == 1){
-                $friend = UserProfile::where('user_friend_id', $friend_id[$i])->select('user_name','user_friend_id','food_num')->first();
+                $friend = UserProfile::where('user_friend_id', $friend_id[$i])->select('user_name','user_friend_id','food_num','title')->first();
                 array_push($friend_list,$friend);
             }
 
@@ -41,7 +41,8 @@ class FriendController extends Controller
                 'user_name'=>$value->user_name,
                 'user_friend_id'=>$value->user_friend_id,
                 'food_num'=>$value->food_num,
-                'condition'=>$condition
+                'condition'=>$condition,
+                'title'=>$value->title,
             );      
         }
         $response = array(
@@ -76,7 +77,7 @@ class FriendController extends Controller
         $length = count($friend_id);
         $friend_list = array();
         for ($i = 0; $i < $length; $i++) {
-            $friend = UserProfile::where('user_friend_id', $friend_id[$i])->select('user_name','user_friend_id','food_num')->first();
+            $friend = UserProfile::where('user_friend_id', $friend_id[$i])->select('user_name','user_friend_id','food_num','title')->first();
             array_push($friend_list,$friend);
         }
         foreach ($friend_list as $k => $value){         
@@ -84,7 +85,8 @@ class FriendController extends Controller
                 'user_name'=>$value->user_name,
                 'user_friend_id'=>$value->user_friend_id,
                 'food_num'=>$value->food_num,
-                'condition'=>ConditionCheck($my_friend_id,$value->user_friend_id)
+                'condition'=>ConditionCheck($my_friend_id,$value->user_friend_id),
+                'title'=>$value->title,
             );
         }
         $response = array(
@@ -120,7 +122,7 @@ class FriendController extends Controller
                 }
             }
             if($already_friend == false){
-                $friend = UserProfile::where('user_friend_id', $pending_list[$i]->src)->select('user_name','user_friend_id','food_num')->first();
+                $friend = UserProfile::where('user_friend_id', $pending_list[$i]->src)->select('user_name','user_friend_id','food_num','title')->first();
                 array_push($friend_list,$friend);
             }
 
@@ -131,7 +133,8 @@ class FriendController extends Controller
                 'user_name'=>$value->user_name,
                 'user_friend_id'=>$value->user_friend_id,
                 'food_num'=>$value->food_num,
-                'condition'=>ConditionCheck($my_friend_id,$value->user_friend_id)
+                'condition'=>ConditionCheck($my_friend_id,$value->user_friend_id),
+                'title'=>$value->title,
             );
         }
 
@@ -150,14 +153,15 @@ class FriendController extends Controller
 
         $search_term = $request->search_term;
         $query = UserProfile::query();
-        $searched_user = $query->where(DB::raw('CONCAT(user_name, user_friend_id)'),'like', '%' .$search_term. '%')->select('user_name','user_friend_id','food_num')->get();
+        $searched_user = $query->where(DB::raw('CONCAT(user_name, user_friend_id)'),'like', '%' .$search_term. '%')->select('user_name','user_friend_id','food_num','title')->get();
         
         foreach ($searched_user as $k => $value){      
             $searched_user[$k] = array(
                 'user_name'=>$value->user_name,
                 'user_friend_id'=>$value->user_friend_id,
                 'food_num'=>$value->food_num,
-                'condition'=>ConditionCheck($my_friend_id,$value->user_friend_id)
+                'condition'=>ConditionCheck($my_friend_id,$value->user_friend_id),
+                'title'=>$value->title,
             );
                         if($value->user_friend_id == $my_friend_id){
                 unset($searched_user[$k]);
@@ -235,7 +239,8 @@ class FriendController extends Controller
                 'user_name'=>"requested_friend_full",
                 'user_friend_id'=>"requested_friend_full",
                 'food_num'=>"-1",
-                'condition'=>"-1"
+                'condition'=>"-1",
+                'title'=>"-1",
             );
             array_push($friend_list,$friend);
             $friends = array(
@@ -386,7 +391,7 @@ function PendingCount($friend_id)
             }
             
             if($already_friend == false){
-                $friend = UserProfile::where('user_friend_id', $pending_list[$i]->src)->select('user_name','user_friend_id','food_num')->first();
+                $friend = UserProfile::where('user_friend_id', $pending_list[$i]->src)->select('user_name','user_friend_id','food_num','title')->first();
                 array_push($friend_list,$friend);
             }    
     }
